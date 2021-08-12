@@ -1,12 +1,15 @@
 package com.backend.basicboard.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
 @Data
+@Entity
 @Table(name = "guest_book_content")
+@NoArgsConstructor
 public class GuestBookContentEntity {
     @Id
     @Column(name = "id", nullable = false)

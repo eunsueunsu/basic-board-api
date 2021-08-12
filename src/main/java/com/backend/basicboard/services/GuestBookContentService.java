@@ -1,9 +1,7 @@
 package com.backend.basicboard.services;
 
 import com.backend.basicboard.controllers.GuestBookContentController;
-import com.backend.basicboard.dto.GuestBookContentDTO;
 import com.backend.basicboard.repos.GuestBookContentRepo;
-import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
