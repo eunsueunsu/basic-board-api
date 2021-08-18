@@ -20,7 +20,7 @@ public class GuestBookContentEntity {
     private String text;
 
     @Column(name = "author_id")
-    private Long authorId;
+    private String authorId;
 
     @Column(name = "created_at" ,columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private ZonedDateTime createdAt;
