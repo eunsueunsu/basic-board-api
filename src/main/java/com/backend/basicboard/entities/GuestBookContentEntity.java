@@ -25,7 +25,7 @@ public class GuestBookContentEntity {
     @Column(name = "created_at" ,columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private ZonedDateTime createdAt;
 
-    @Column(name = "updated_at" , columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(name = "updated_at" , columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE")
     private ZonedDateTime updatedAt;
 
     @Column(name = "deleted_at")

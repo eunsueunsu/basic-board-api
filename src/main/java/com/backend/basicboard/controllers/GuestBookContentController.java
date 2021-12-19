@@ -22,23 +22,20 @@ public class GuestBookContentController {
 
     private final GuestBookContentService guestBookContentService;
 
-
     @Autowired
     GuestBookContentController(final GuestBookContentService guestBookContentService) {
         this.guestBookContentService = guestBookContentService;
-
     }
 
-    @GetMapping("content/{id}")
-    public ResponseEntity selectOne(@PathVariable Long id, GetRequest request){
-        Optional<GuestBookContentEntity> result = guestBookContentService.selectOne(id,request);
-        return new ResponseEntity(result,HttpStatus.OK);
+    @GetMapping("/content/{id}")
+    public ResponseEntity selectOne(@PathVariable Long id, GetRequest request) {
+        Optional<GuestBookContentEntity> result = guestBookContentService.selectOne(id, request);
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 
-    @GetMapping("/content")
-    public ResponseEntity selectList(GetRequest request) {
+    @GetMapping("/contents")
+    public ResponseEntity selectList(@RequestBody GetRequest request) {
         final Map<String, Object> jsonObject = new HashMap<>();
-
         List<GuestBookContentEntity> list = guestBookContentService.selectList(request);
         jsonObject.put("data", list);
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
@@ -46,12 +43,17 @@ public class GuestBookContentController {
 
     // TODO : postRequest로 변경 / 예외처리 / pwd 암호화
     @PostMapping("/content")
-    public ResponseEntity create(GuestBookContentEntity guestBookContentEntity) {
+    public ResponseEntity create(@RequestBody PostRequest postRequest) {
+        GuestBookContentEntity guestBookContentEntity = new GuestBookContentEntity();
+        guestBookContentEntity.setContentPassword(postRequest.contentPassword);
+        guestBookContentEntity.setAuthorIp(postRequest.authorIp);
+        guestBookContentEntity.setText(postRequest.text);
+        guestBookContentEntity.setAuthorId(postRequest.authorIp);
         GuestBookContentEntity savedEntity = guestBookContentService.createContent(guestBookContentEntity);
         return new ResponseEntity(savedEntity, HttpStatus.OK);
     }
 
-    @PutMapping("/content")
+    @PutMapping("/content/{id}")
     public ResponseEntity update(GuestBookContentEntity guestBookContentEntity) {
         GuestBookContentEntity updatedEntity = guestBookContentService.updateContent(guestBookContentEntity);
         return new ResponseEntity(updatedEntity, HttpStatus.OK);
@@ -66,9 +68,20 @@ public class GuestBookContentController {
     }
 
     @Data
-    public class GetRequest {
+    public static class GetRequest {
         private int currentPage;
         private int pageSize;
+    }
+
+    @Data
+    public static class PostRequest {
+
+        private String authorId;
+        private String text;
+        private String authorIp;
+        private String contentPassword;
+
+
     }
 
 }
