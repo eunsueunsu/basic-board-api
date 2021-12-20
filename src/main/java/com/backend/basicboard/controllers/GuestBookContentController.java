@@ -7,10 +7,14 @@ import lombok.Data;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,17 +32,19 @@ public class GuestBookContentController {
     }
 
     @GetMapping("/content/{id}")
-    public ResponseEntity selectOne(@PathVariable Long id, GetRequest request) {
-        Optional<GuestBookContentEntity> result = guestBookContentService.selectOne(id, request);
+    public ResponseEntity selectOne(@PathVariable Long id) {
+        Optional<GuestBookContentEntity> result = guestBookContentService.selectOne(id);
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
     @GetMapping("/contents")
-    public ResponseEntity selectList(@RequestBody GetRequest request) {
-        final Map<String, Object> jsonObject = new HashMap<>();
-        List<GuestBookContentEntity> list = guestBookContentService.selectList(request);
-        jsonObject.put("data", list);
-        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    public ResponseEntity selectList(Integer currentPage,Integer pageSize) {
+//        final Map<String, Object> jsonObject = new HashMap<>();
+//        List<GuestBookContentEntity> list = guestBookContentService.selectList();
+        PageRequest pageable = PageRequest.of(currentPage + 1, pageSize, Sort.by("id").descending());
+        Page<GuestBookContentEntity> list = guestBookContentService.selectPageableList(pageable);
+//        jsonObject.put("data", list);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     // TODO : postRequest로 변경 / 예외처리 / pwd 암호화
