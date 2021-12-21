@@ -29,12 +29,13 @@ public class GuestBookContentService {
         this.guestBookContentRepo = guestBookContentRepo;
     }
 
-    public List<GuestBookContentEntity> selectList(final GuestBookContentController.GetRequest request) {
-        List<GuestBookContentEntity> list = guestBookContentRepo.findAll();
-        return list;
-    }
-    public Page<GuestBookContentEntity> selectPageableList(Pageable pageable){
-        return  guestBookContentRepo.findAll(pageable);
+//    public List<GuestBookContentEntity> selectList(final GuestBookContentController.GetRequest request) {
+//        List<GuestBookContentEntity> list = guestBookContentRepo.findAll();
+//        return list;
+//    }
+
+    public Page<GuestBookContentEntity> selectPageableList(Pageable pageable) {
+        return guestBookContentRepo.findAll(pageable);
 
     }
 
@@ -48,9 +49,9 @@ public class GuestBookContentService {
 
     public GuestBookContentEntity updateContent(GuestBookContentEntity guestBookContentEntity) {
         String pwd = selectOne(guestBookContentEntity.getId()).get().getContentPassword();
-        if(comparePassword(guestBookContentEntity.getContentPassword(),pwd)){
+        if (comparePassword(guestBookContentEntity.getContentPassword(), pwd)) {
             guestBookContentRepo.save(guestBookContentEntity);
-        }else{
+        } else {
 
         }
 
@@ -81,7 +82,8 @@ public class GuestBookContentService {
 
         return pwd;
     }
-    public Boolean comparePassword(String pwd,String compare){
+
+    public Boolean comparePassword(String pwd, String compare) {
         return getSHA512("pwd").equals(compare);
     }
 }

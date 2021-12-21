@@ -38,13 +38,11 @@ public class GuestBookContentController {
     }
 
     @GetMapping("/contents")
-    public ResponseEntity selectList(Integer currentPage,Integer pageSize) {
-//        final Map<String, Object> jsonObject = new HashMap<>();
-//        List<GuestBookContentEntity> list = guestBookContentService.selectList();
-        PageRequest pageable = PageRequest.of(currentPage + 1, pageSize, Sort.by("id").descending());
-        Page<GuestBookContentEntity> list = guestBookContentService.selectPageableList(pageable);
-//        jsonObject.put("data", list);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    public ResponseEntity selectList(Integer pageNumber, Integer pageSize) {
+        if (pageNumber != 0) pageNumber--;
+        PageRequest pageable = PageRequest.of(pageNumber, pageSize);
+        Page<GuestBookContentEntity> page = guestBookContentService.selectPageableList(pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     // TODO : postRequest로 변경 / 예외처리 / pwd 암호화
@@ -71,12 +69,6 @@ public class GuestBookContentController {
         guestBookContentService.deleteContent(id);
         return new ResponseEntity(HttpStatus.OK);
 
-    }
-
-    @Data
-    public static class GetRequest {
-        private int currentPage;
-        private int pageSize;
     }
 
     @Data
