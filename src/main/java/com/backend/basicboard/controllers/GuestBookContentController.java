@@ -39,7 +39,7 @@ public class GuestBookContentController {
 
     @GetMapping("/contents")
     public ResponseEntity selectList(Integer pageNumber, Integer pageSize) {
-        if (pageNumber != 0) pageNumber--;
+//        if (pageNumber != 0) pageNumber--;
         PageRequest pageable = PageRequest.of(pageNumber, pageSize);
         Page<GuestBookContentEntity> page = guestBookContentService.selectPageableList(pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -52,7 +52,7 @@ public class GuestBookContentController {
         guestBookContentEntity.setContentPassword(postRequest.contentPassword);
         guestBookContentEntity.setAuthorIp(postRequest.authorIp);
         guestBookContentEntity.setText(postRequest.text);
-        guestBookContentEntity.setAuthorId(postRequest.authorIp);
+        guestBookContentEntity.setAuthorId(postRequest.authorId);
         GuestBookContentEntity savedEntity = guestBookContentService.createContent(guestBookContentEntity);
         return new ResponseEntity(savedEntity, HttpStatus.OK);
     }
